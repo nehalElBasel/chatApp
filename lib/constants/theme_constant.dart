@@ -35,3 +35,5 @@ final kTextRichLinkStyle = GoogleFonts.pacifico(
   color: kTextRichLink,
   fontSize: 20,
 );
+
+final TextStyle kFormTextFeildStyle = TextStyle(color: kFormTextColor);

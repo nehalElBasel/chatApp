@@ -1,4 +1,5 @@
 import 'package:chat_app/constants/color_constants.dart';
+import 'package:chat_app/constants/theme_constant.dart';
 import 'package:flutter/material.dart';
 
 class CustomFormText extends StatelessWidget {
@@ -23,6 +24,7 @@ class CustomFormText extends StatelessWidget {
         },
         onSaved: onSaved,
         obscureText: isPassword,
+        style: kFormTextFeildStyle,
         decoration: InputDecoration(
           hintText: label,
           border: OutlineInputBorder(
