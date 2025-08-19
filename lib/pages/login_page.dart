@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
           key: formKey,
           child: ListView(
             children: [
-              Image.asset("assets/images/scholar.png", width: 100, height: 100),
+              Image.asset(kLogoImage, width: 100, height: 100),
               Text(
                 "schoolar app",
                 textAlign: TextAlign.center,
@@ -56,7 +56,7 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 10),
               CustomTextRich(
                 firstText: "don't have an account",
-                secondText: "Sign Up",
+                secondText: "Register",
                 onTab: () {
                   Navigator.pushNamed(context, RegisterPage.registerRouteID);
                 },

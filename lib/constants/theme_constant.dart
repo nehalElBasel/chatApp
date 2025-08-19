@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 final ThemeData kAppTheme = ThemeData(
   scaffoldBackgroundColor: kPrimaryColor,
+  appBarTheme: AppBarTheme(backgroundColor: kPrimaryColor),
   // textTheme: GoogleFonts.pacificoTextTheme(
   //   ThemeData.light().textTheme.copyWith(
   //     // displayLarge: TextStyle(color: Colors.red),
@@ -29,4 +30,8 @@ final ButtonStyle kFormSubmitStyle = ElevatedButton.styleFrom(
 
 final kAppTitleStyle = GoogleFonts.pacifico();
 final kTextRichStyle = TextStyle(fontSize: 20);
-final kTextRichLinkStyle = TextStyle(color: kTextRichLink, fontSize: 20);
+// final kTextRichLinkStyle = TextStyle(color: kTextRichLink, fontSize: 20);
+final kTextRichLinkStyle = GoogleFonts.pacifico(
+  color: kTextRichLink,
+  fontSize: 20,
+);
