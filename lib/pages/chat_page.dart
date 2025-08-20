@@ -1,4 +1,7 @@
+import 'package:chat_app/constants/color_constants.dart';
 import 'package:chat_app/constants/text_constants.dart';
+import 'package:chat_app/widgets/chat_friend_container.dart';
+import 'package:chat_app/widgets/chat_me_container.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -6,6 +9,16 @@ class ChatPage extends StatelessWidget {
   static final chatRouteID = kChatRoute;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(), body: Text("chat"));
+    return Scaffold(
+      backgroundColor: kChatPageBackgroundColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: kChatPageBackgroundColor,
+      ),
+      body: ListView.builder(
+        itemCount: 10,
+        itemBuilder: (ctx, index) => ChatFriendContainer(),
+      ),
+    );
   }
 }
