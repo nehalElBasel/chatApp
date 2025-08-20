@@ -1,13 +1,32 @@
 import 'package:chat_app/constants/color_constants.dart';
 import 'package:chat_app/constants/text_constants.dart';
 import 'package:chat_app/constants/theme_constant.dart';
-import 'package:chat_app/widgets/chat_friend_container.dart';
-import 'package:chat_app/widgets/chat_me_container.dart';
+import 'package:chat_app/helper.dart';
+import 'package:chat_app/models/message_model.dart';
+import 'package:chat_app/services/firebase_firestore.dart';
+import 'package:chat_app/widgets/chat_messages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage({super.key});
+  ChatPage({super.key});
   static final chatRouteID = kChatRoute;
+  late TextEditingController controller = TextEditingController();
+
+  _addMessage(BuildContext context, MessageModel message) async {
+    print("add message");
+    if (message.message.trim().isEmpty) {
+      showSnakBar(context, "please message cannot be empty");
+    } else {
+      try {
+        await CustomFirebaseFireStore().addMessage(message);
+        controller.text = "";
+      } catch (e) {
+        showSnakBar(context, e.toString());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,20 +39,22 @@ class ChatPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
         child: Column(
           children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (ctx, index) => ChatFriendContainer(),
-              ),
-            ),
+            Expanded(child: ChatMessages()),
             SizedBox(height: 15),
             TextField(
+              controller: controller,
               decoration: InputDecoration(
-                // contentPadding: EdgeInsets.all(30),
                 enabledBorder: kChatTextBorder,
                 focusedBorder: kChatTextBorder,
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    MessageModel message = MessageModel(
+                      userID: FirebaseAuth.instance.currentUser!.uid,
+                      message: controller.text,
+                      date: DateTime.now(),
+                    );
+                    _addMessage(context, message);
+                  },
                   icon: Icon(Icons.send, color: kPrimaryColor),
                 ),
               ),
