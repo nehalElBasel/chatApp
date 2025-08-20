@@ -11,7 +11,8 @@ class SignInCubit extends Cubit<SignInStates> {
   login(BuildContext context, UserModel user) async {
     try {
       await CustomFireBaseAuth.signIn(user);
-      emit(SuccessSignIn());
+      // emit(SuccessSignIn());
+      goToChatPage(context);
     } catch (e) {
       // emit(FailureSignIn(e.toString()));
       showSnakBar(context, e.toString());

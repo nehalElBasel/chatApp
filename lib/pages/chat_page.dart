@@ -12,7 +12,7 @@ class ChatPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: kChatPageBackgroundColor,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
         backgroundColor: kChatPageBackgroundColor,
       ),
       body: ListView.builder(

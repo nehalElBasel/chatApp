@@ -52,13 +52,9 @@ class LoginBuilder extends StatelessWidget {
                     _onSubmit(context);
                   },
                 );
-              } else if (state is SuccessSignIn) {
-                log("success state");
-                Navigator.pushNamed(context, ChatPage.chatRouteID);
               } else {
                 return CustomCircularIndecator();
               }
-              return Text("");
             },
           ),
         ),

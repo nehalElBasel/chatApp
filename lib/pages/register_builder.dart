@@ -55,7 +55,6 @@ class RegisterBuilder extends StatelessWidget {
               } else {
                 return CustomCircularIndecator();
               }
-              return Container();
             },
           ),
         ),
