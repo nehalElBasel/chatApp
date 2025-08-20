@@ -9,14 +9,10 @@ class SignInCubit extends Cubit<SignInStates> {
   SignInCubit() : super(NoSignIn());
 
   login(BuildContext context, UserModel user) async {
-    print("cubit sign in");
-    print(user);
     try {
-      print("try cubit");
       await CustomFireBaseAuth.signIn(user);
       emit(SuccessSignIn());
     } catch (e) {
-      print("catch in cubit");
       // emit(FailureSignIn(e.toString()));
       showSnakBar(context, e.toString());
     }

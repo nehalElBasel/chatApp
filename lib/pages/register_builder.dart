@@ -1,21 +1,19 @@
-import 'dart:developer';
-
 import 'package:chat_app/constants/text_constants.dart';
-import 'package:chat_app/cubit/sign_in_cubit/sigin_in_cubit.dart';
-import 'package:chat_app/cubit/sign_in_cubit/sigin_in_states.dart';
+import 'package:chat_app/cubit/sign_up_cubit/sign_up_cubit.dart';
+import 'package:chat_app/cubit/sign_up_cubit/sign_up_states.dart';
 import 'package:chat_app/models/user_model.dart';
 import 'package:chat_app/pages/chat_page.dart';
-import 'package:chat_app/pages/login_page.dart';
+import 'package:chat_app/pages/register_page.dart';
 import 'package:chat_app/widgets/custom_circular_indecator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginBuilder extends StatelessWidget {
-  LoginBuilder({super.key});
-  String? _email, _password;
-  static final String loginRouteID = kLoginRoute;
+class RegisterBuilder extends StatelessWidget {
+  RegisterBuilder({super.key});
+  static final String registerRouteID = kRegisterRoute;
 
   final GlobalKey<FormState> formKey = GlobalKey();
+  String? _email, _password;
 
   _onSaveEmail(String? value) {
     _email = value;
@@ -29,22 +27,24 @@ class LoginBuilder extends StatelessWidget {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       UserModel user = UserModel(email: _email!, password: _password!);
-      BlocProvider.of<SignInCubit>(context).login(context, user);
+      BlocProvider.of<SignUpCubit>(context).register(context, user);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInCubit(),
+      create: (context) => SignUpCubit(),
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          automaticallyImplyLeading: false, //remove back button
+        ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: BlocBuilder<SignInCubit, SignInStates>(
+          child: BlocBuilder<SignUpCubit, SignUpStates>(
             builder: (context, state) {
-              if (state is NoSignIn) {
-                return LoginPage(
+              if (state is NoSignUp) {
+                return RegisterPage(
                   formKey: formKey,
                   onSaveEmail: _onSaveEmail,
                   onSavePassword: _onSavePassword,
@@ -52,13 +52,10 @@ class LoginBuilder extends StatelessWidget {
                     _onSubmit(context);
                   },
                 );
-              } else if (state is SuccessSignIn) {
-                log("success state");
-                Navigator.pushNamed(context, ChatPage.chatRouteID);
               } else {
                 return CustomCircularIndecator();
               }
-              return Text("");
+              return Container();
             },
           ),
         ),
