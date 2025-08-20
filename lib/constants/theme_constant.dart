@@ -39,3 +39,8 @@ final kTextRichLinkStyle = GoogleFonts.pacifico(
 final TextStyle kFormTextFeildStyle = TextStyle(color: kFormTextColor);
 
 final Radius kChatContainerRaduis = Radius.circular(40);
+
+final InputBorder? kChatTextBorder = OutlineInputBorder(
+  borderSide: BorderSide(color: kPrimaryColor, width: 2),
+  borderRadius: BorderRadius.all(Radius.circular(20)),
+);

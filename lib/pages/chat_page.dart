@@ -1,5 +1,6 @@
 import 'package:chat_app/constants/color_constants.dart';
 import 'package:chat_app/constants/text_constants.dart';
+import 'package:chat_app/constants/theme_constant.dart';
 import 'package:chat_app/widgets/chat_friend_container.dart';
 import 'package:chat_app/widgets/chat_me_container.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,27 @@ class ChatPage extends StatelessWidget {
         // automaticallyImplyLeading: false,
         backgroundColor: kChatPageBackgroundColor,
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (ctx, index) => ChatFriendContainer(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (ctx, index) => ChatFriendContainer(),
+              ),
+            ),
+            SizedBox(height: 15),
+            TextField(
+              decoration: InputDecoration(
+                // contentPadding: EdgeInsets.all(30),
+                enabledBorder: kChatTextBorder,
+                focusedBorder: kChatTextBorder,
+                suffixIcon: Icon(Icons.send, color: kPrimaryColor),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
