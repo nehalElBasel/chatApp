@@ -45,4 +45,12 @@ class CustomFireBaseAuth {
       throw Exception(e.toString());
     }
   }
+
+  static Future<void> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (error) {
+      throw Exception(error.toString());
+    }
+  }
 }

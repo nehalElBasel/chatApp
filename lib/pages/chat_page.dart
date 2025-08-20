@@ -3,6 +3,7 @@ import 'package:chat_app/constants/text_constants.dart';
 import 'package:chat_app/constants/theme_constant.dart';
 import 'package:chat_app/helper.dart';
 import 'package:chat_app/models/message_model.dart';
+import 'package:chat_app/services/firebase_auth.dart';
 import 'package:chat_app/services/firebase_firestore.dart';
 import 'package:chat_app/widgets/chat_messages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,10 +30,24 @@ class ChatPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String name = FirebaseAuth.instance.currentUser!.email!.split("@")[0] ?? "";
     return Scaffold(
       backgroundColor: kChatPageBackgroundColor,
       appBar: AppBar(
         // automaticallyImplyLeading: false,
+        title: Text("Welcome $name"),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              try {
+                await CustomFireBaseAuth.signOut();
+              } catch (error) {
+                showSnakBar(context, error.toString());
+              }
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
         backgroundColor: kChatPageBackgroundColor,
       ),
       body: Padding(
