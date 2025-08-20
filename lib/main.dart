@@ -1,4 +1,6 @@
 import 'package:chat_app/constants/theme_constant.dart';
+import 'package:chat_app/pages/chat_page.dart';
+import 'package:chat_app/pages/login_builder.dart';
 import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/pages/register_page.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +21,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: kAppTheme,
       routes: {
-        LoginPage.loginRouteID: (ctx) => LoginPage(),
+        LoginPage.loginRouteID: (ctx) => LoginBuilder(),
         RegisterPage.registerRouteID: (ctx) => RegisterPage(),
+        ChatPage.chatRouteID: (context) => ChatPage(),
       },
       initialRoute: LoginPage.loginRouteID,
     );
