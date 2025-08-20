@@ -32,7 +32,10 @@ class ChatPage extends StatelessWidget {
                 // contentPadding: EdgeInsets.all(30),
                 enabledBorder: kChatTextBorder,
                 focusedBorder: kChatTextBorder,
-                suffixIcon: Icon(Icons.send, color: kPrimaryColor),
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.send, color: kPrimaryColor),
+                ),
               ),
             ),
           ],
