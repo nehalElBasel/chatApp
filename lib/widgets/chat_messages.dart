@@ -1,6 +1,5 @@
 import 'package:chat_app/helper.dart';
 import 'package:chat_app/models/message_model.dart';
-import 'package:chat_app/services/firebase_auth.dart';
 import 'package:chat_app/services/firebase_firestore.dart';
 import 'package:chat_app/widgets/chat_friend_container.dart';
 import 'package:chat_app/widgets/chat_me_container.dart';
@@ -10,46 +9,62 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessages extends StatefulWidget {
-  const ChatMessages({super.key});
-
+  const ChatMessages({
+    super.key,
+    required this.controller,
+    required this.scrollController,
+  });
+  final TextEditingController controller;
+  final ScrollController scrollController;
   @override
   State<ChatMessages> createState() => _ChatMessagesState();
 }
 
 class _ChatMessagesState extends State<ChatMessages> {
   // Future<QuerySnapshot<Object?>>? messages;
-  Future<List<MessageModel>>? messages;
+  Stream<QuerySnapshot>? messages;
 
   @override
   void initState() {
     messages = getMessages();
+    // _scrollController = ScrollController();
     super.initState();
   }
 
-  Future<List<MessageModel>> getMessages() async {
-    try {
-      return await CustomFirebaseFireStore().getMessages();
-    } catch (error) {
-      showSnakBar(context, error.toString());
-      return [];
-    }
+  void dispose() {
+    print("disposed called");
+    widget.controller.dispose();
+    super.dispose();
+  }
+
+  Stream<QuerySnapshot> getMessages() {
+    return CustomFirebaseFireStore().getMessages();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<MessageModel>>(
-      future: messages,
+    return StreamBuilder<QuerySnapshot>(
+      stream: CustomFirebaseFireStore().getMessages(),
       builder: (ctx, snapshot) {
         if (snapshot.hasData) {
-          List<MessageModel> messages = snapshot.data!;
+          List<MessageModel> messagesList = [];
+          // messages!.forEach((item) {
+          //   messagesList.add(MessageModel.fromJson(item));
+          // });
+          snapshot.data!.docs.forEach((item) {
+            messagesList.add(MessageModel.fromJson(item));
+          });
           return ListView.builder(
-            itemCount: messages.length,
+            itemCount: messagesList.length,
+            controller: widget.scrollController,
             itemBuilder: (ctx, index) {
-              if (messages[index].userID ==
+              if (messagesList[index].userID ==
                   FirebaseAuth.instance.currentUser!.uid) {
-                return ChatMeContainer(message: messages[index].message);
+                return ChatMeContainer(message: messagesList[index].message);
               } else {
-                return ChatFriendContainer(message: messages[index].message);
+                return ChatFriendContainer(
+                  message: messagesList[index].message,
+                );
               }
             },
           );

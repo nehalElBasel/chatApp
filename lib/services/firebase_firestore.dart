@@ -18,23 +18,7 @@ class CustomFirebaseFireStore {
         .catchError((error) => throw Exception(error.toString()));
   }
 
-  Future<List<MessageModel>> getMessages() async {
-    // return messages
-    //     .orderBy('date')
-    //     .get()
-    //     .catchError((error) => throw Exception(error.toString()));
-
-    try {
-      List<MessageModel> messagesList = [];
-      QuerySnapshot response = await messages.get();
-      for (var item in response.docs) {
-        messagesList.add(MessageModel.fromJson(item));
-      }
-      return messagesList;
-    } catch (error) {
-      print("error");
-      throw Exception(error.toString());
-      return [];
-    }
+  Stream<QuerySnapshot> getMessages() {
+    return messages.orderBy('date', descending: false).snapshots();
   }
 }

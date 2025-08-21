@@ -4,6 +4,15 @@ import 'package:chat_app/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class CustomFireBaseAuth {
+  static String UserID =
+      FirebaseAuth.instance.currentUser != null
+          ? FirebaseAuth.instance.currentUser!.uid
+          : "";
+
+  static String userName =
+      FirebaseAuth.instance.currentUser != null
+          ? FirebaseAuth.instance.currentUser!.email!
+          : "Guest";
   static Future<void> register(UserModel user) async {
     log("register fireauth");
     try {
