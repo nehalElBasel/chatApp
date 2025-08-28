@@ -1,7 +1,12 @@
 class SignUpStates {}
 
-class NoSignUp extends SignUpStates {}
+class NoSignUpState extends SignUpStates {}
 
 // class SuccessSignUp extends SignUpStates {}
 
-class LoadingSignUp extends SignUpStates {}
+class LoadingSignUpState extends SignUpStates {}
+
+class FailureSignUpState extends SignUpStates {
+  FailureSignUpState(this.message);
+  final String message;
+}

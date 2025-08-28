@@ -1,6 +1,7 @@
 import 'package:chat_app/constants/text_constants.dart';
 import 'package:chat_app/cubit/sign_up_cubit/sign_up_cubit.dart';
 import 'package:chat_app/cubit/sign_up_cubit/sign_up_states.dart';
+import 'package:chat_app/helper.dart';
 import 'package:chat_app/models/user_model.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/pages/register_page.dart';
@@ -41,9 +42,11 @@ class RegisterBuilder extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: BlocBuilder<SignUpCubit, SignUpStates>(
+          child: BlocConsumer<SignUpCubit, SignUpStates>(
             builder: (context, state) {
-              if (state is NoSignUp) {
+              if (state is LoadingSignUpState) {
+                return CustomCircularIndecator();
+              } else {
                 return RegisterPage(
                   formKey: formKey,
                   onSaveEmail: _onSaveEmail,
@@ -52,8 +55,11 @@ class RegisterBuilder extends StatelessWidget {
                     _onSubmit(context);
                   },
                 );
-              } else {
-                return CustomCircularIndecator();
+              }
+            },
+            listener: (context, state) {
+              if (state is FailureSignUpState) {
+                showSnakBar(context, state.message);
               }
             },
           ),
