@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInCubit extends Cubit<SignInStates> {
-  SignInCubit() : super(NoSignIn());
+  SignInCubit() : super(NoSignInState());
 
   login(BuildContext context, UserModel user) async {
     try {
+      emit(LoadingSignInState());
       await CustomFireBaseAuth.signIn(user);
       // emit(SuccessSignIn());
       goToChatPage(context);
     } catch (e) {
       // emit(FailureSignIn(e.toString()));
-      showSnakBar(context, e.toString());
+      emit(FailureSignInState(e.toString()));
+      // showSnakBar(context, e.toString());
     }
   }
 }

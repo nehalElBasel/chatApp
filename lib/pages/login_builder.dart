@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:chat_app/constants/text_constants.dart';
 import 'package:chat_app/cubit/sign_in_cubit/sigin_in_cubit.dart';
 import 'package:chat_app/cubit/sign_in_cubit/sigin_in_states.dart';
+import 'package:chat_app/helper.dart';
 import 'package:chat_app/models/user_model.dart';
-import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/widgets/custom_circular_indecator.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +39,11 @@ class LoginBuilder extends StatelessWidget {
         appBar: AppBar(),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: BlocBuilder<SignInCubit, SignInStates>(
+          child: BlocConsumer<SignInCubit, SignInStates>(
             builder: (context, state) {
-              if (state is NoSignIn) {
+              if (state is LoadingSignInState) {
+                return CustomCircularIndecator();
+              } else {
                 return LoginPage(
                   formKey: formKey,
                   onSaveEmail: _onSaveEmail,
@@ -52,8 +52,11 @@ class LoginBuilder extends StatelessWidget {
                     _onSubmit(context);
                   },
                 );
-              } else {
-                return CustomCircularIndecator();
+              }
+            },
+            listener: (context, state) {
+              if (state is FailureSignInState) {
+                showSnakBar(context, state.message);
               }
             },
           ),
